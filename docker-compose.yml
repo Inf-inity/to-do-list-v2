@@ -2,16 +2,16 @@ version: "3.9"
 
 
 services:
-  fastapi:
-    build: ./fastapi
-    ports:
-      - 5000:5000
-    volumes:
-      - ./fastapi:/app:Z
-    networks:
-      - to-do-list-v2
-    depends_on:
-      - db
+  # app:
+  #   build: ./app
+  #   ports:
+  #     - 5000:5000
+  #   volumes:
+  #     - ./app:/app:Z
+  #   networks:
+  #     - to-do-list-v2
+  #   depends_on:
+  #     - db
   sveltekit:
     build: ./sveltekit
     ports:
