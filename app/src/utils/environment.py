@@ -27,3 +27,7 @@ SQL_SHOW_STATEMENTS: bool = get_bool("SQL_SHOW_STATEMENTS", False)
 SECRET_KEY: str = getenv("SECRET_KEY", "a_random_string")
 ALGORITHM: str = getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES: int = int(getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+
+REDIS_HOST = getenv("REDIS_HOST", "redis")
+REDIS_PORT = int(getenv("REDIS_PORT", "6379"))
+REDIS_DB = int(getenv("REDIS_DB", "0"))

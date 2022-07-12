@@ -12,6 +12,7 @@ services:
       - to-do-list-v2
     depends_on:
       - db
+      - redis
   sveltekit:
     build: ./sveltekit
     ports:
@@ -24,6 +25,7 @@ services:
       - to-do-list-v2
     depends_on:
       - db
+      - redis
   db:
     image: mariadb
     restart: always
@@ -34,6 +36,13 @@ services:
       - to-do-list-v2
     ports:
       - 6666:3306
+  redis:
+    image: redis:alpine
+    restart: always
+    networks:
+      - to-do-list-v2
+    ports:
+      - 7777:6379
 
 networks:
   to-do-list-v2:

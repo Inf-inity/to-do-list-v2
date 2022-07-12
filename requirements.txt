@@ -2,6 +2,7 @@ pip
 contextvars
 sqlalchemy
 aiomysql
+aioredis
 uvicorn
 fastapi
 pydantic
