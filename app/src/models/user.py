@@ -7,7 +7,7 @@ from sqlalchemy import BigInteger, Boolean, Column, DateTime, String
 from sqlalchemy.orm import Mapped
 
 from database import Base, db, select
-from utils.crypt import hash_password
+from utils.crypt import hash_password, hash_token
 from utils.environment import ADMIN_USERNAME, ADMIN_PASSWORD, ACCESS_TOKEN_EXPIRE_MINUTES
 from utils.logger import get_logger
 from utils.redis import redis
@@ -21,7 +21,7 @@ class User(Base):
 
     id: Mapped[int] = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
     name: Mapped[str] = Column(String(32), unique=True)
-    password: Mapped[str | None] = Column(String(256))
+    password: Mapped[str] = Column(String(256))
     registration: Mapped[datetime] = Column(DateTime)
     enabled: Mapped[bool] = Column(Boolean, default=True)
     admin: Mapped[bool] = Column(Boolean, default=False)
@@ -65,13 +65,13 @@ class User(Base):
 
     @staticmethod
     async def get_user_by_token(token: str) -> User | None:
-        if not await redis.exists(f"access_token:{token}"):
+        if not await redis.exists(f"access_token:{hash_token(token)}"):
             return None
-        return await db.get(User, token=token)
+        return await db.get(User, token=hash_token(token))
 
     async def create_session(self, token: str | None = None):
         if token:
-            self.token = token
-            await redis.setex(f"access_token:{token}", ACCESS_TOKEN_EXPIRE_MINUTES*60, 1)
+            self.token = hash_token(token)
+            await redis.setex(f"access_token:{hash_token(token)}", ACCESS_TOKEN_EXPIRE_MINUTES*60, 1)
         else:
             self.token = None

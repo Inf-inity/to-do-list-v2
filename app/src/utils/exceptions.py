@@ -26,3 +26,16 @@ class InvalidCredentials(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
     detail = "Invalid username or password"
     description = "The username or password ar not registered."
+
+
+class AccountDisabled(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Account is disabled"
+    description = "This account was disabled by an admin."
+
+
+class NameDuplicated(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Name is already in use"
+    description = "This name is already taken by another user."
+

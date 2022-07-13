@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 from fastapi.security import OAuth2PasswordRequestForm
 
 from database import db, select
@@ -9,7 +9,7 @@ from schemas.token import Token
 from schemas.user import User as Us
 from utils.auth import create_access_token, admin_auth
 from utils.environment import ACCESS_TOKEN_EXPIRE_MINUTES
-from utils.exceptions import InvalidCredentials
+from utils.exceptions import AccountDisabled, InvalidCredentials, NameDuplicated
 from utils.crypt import hash_password, verify_password
 
 
@@ -21,7 +21,7 @@ async def login(data_form: OAuth2PasswordRequestForm = Depends()):
     if not (user := await User.get_user_by_name(data_form.username)) or not verify_password(user.password, data_form.password):
         return InvalidCredentials
     if not user.enabled:
-        return HTTPException(status_code=400, detail="Account is disabled")
+        return AccountDisabled
 
     access_token = create_access_token(
         data={"sub": user.name}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -33,7 +33,7 @@ async def login(data_form: OAuth2PasswordRequestForm = Depends()):
 @router.post("/users/new")
 async def register(user: Us):
     if await User.get_user_by_name(user.name):
-        return "User already with this name"
+        return NameDuplicated
 
     user = await User.create(user.name, hash_password(user.password), user.enabled, user.admin)
     return user.serialize
