@@ -15,6 +15,7 @@ services:
       - redis
   sveltekit:
     build: ./sveltekit
+    restart: always
     ports:
       - 3000:3000
     volumes:
