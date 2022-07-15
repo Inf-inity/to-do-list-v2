@@ -32,4 +32,4 @@ async def on_startup() -> None:
 
     for router in ROUTERS:
         app.include_router(router)
-        logger.info(f"Loaded {router.tags} router(s)")
+        logger.info(f"Loaded {router.tags} router")
