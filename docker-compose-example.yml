@@ -13,20 +13,6 @@ services:
     depends_on:
       - db
       - redis
-  sveltekit:
-    build: ./to-do-list-v2-frontend
-    restart: always
-    ports:
-      - 3000:3000
-    volumes:
-      - ./to-do-list-v2-frontend:/to-do-list-v2-backend:Z
-    environment:
-      - VITE_BACKEND_URL=http://localhost:5000
-    networks:
-      - to-do-list-v2
-    depends_on:
-      - db
-      - redis
   db:
     image: mariadb
     restart: always
