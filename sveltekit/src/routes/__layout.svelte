@@ -2,4 +2,8 @@
   import "../app.css";
 </script>
 
-<slot />
+<body>
+  <nav>
+  </nav>
+  <slot></slot>
+</body>
