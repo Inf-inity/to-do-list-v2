@@ -1,6 +1,6 @@
 [submodule "to-do-list-v2-frontend"]
 	path = to-do-list-v2-frontend
-	url = https://github.com/Inf-inity/to-do-list-v2-frontend
+	url = ../../Inf-inity/to-do-list-v2-frontend.git
 [submodule "to-do-list-v2-backend"]
 	path = to-do-list-v2-backend
-	url = https://github.com/Inf-inity/to-do-list-v2-backend
+	url = ../../Inf-inity/to-do-list-v2-backend.git
