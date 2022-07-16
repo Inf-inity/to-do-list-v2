@@ -3,23 +3,23 @@ version: "3.9"
 
 services:
   app:
-    build: ./app
+    build: ./to-do-list-v2-backend
     ports:
       - 5000:5000
     volumes:
-      - ./app:/app:Z
+      - ./to-do-list-v2-backend:/to-do-list-v2-backend:Z
     networks:
       - to-do-list-v2
     depends_on:
       - db
       - redis
   sveltekit:
-    build: ./sveltekit
+    build: ./to-do-list-v2-frontend
     restart: always
     ports:
       - 3000:3000
     volumes:
-      - ./sveltekit:/app:Z
+      - ./to-do-list-v2-frontend:/to-do-list-v2-backend:Z
     environment:
       - VITE_BACKEND_URL=http://localhost:5000
     networks:

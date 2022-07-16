@@ -26,7 +26,6 @@ class UserTask(Base):
     timestamp: Mapped[datetime] = Column(DateTime)
     end: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
     resolved: Mapped[bool] = Column(Boolean, default=False)
-    resolved_by: User = relationship("User", back_populates="resolved_tasks")
     priority: Mapped[int] = Column(SmallInteger, default=1)
 
     @staticmethod
@@ -55,3 +54,7 @@ class UserTask(Base):
             "resolved": self.resolved,
             "creator": self.creator_id
         }
+
+    @staticmethod
+    async def get_by_id(task_id: int) -> UserTask | None:
+        return await db.get(UserTask, id=task_id)

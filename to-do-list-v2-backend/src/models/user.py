@@ -31,7 +31,6 @@ class User(Base):
     admin: Mapped[bool] = Column(Boolean, default=False)
     token: Mapped[str] | str | None = Column(String(256), default=None, nullable=True, unique=True)
     tasks: list[UserTask] = relationship("UserTask", back_populates="creator", cascade="delete")
-    resolved_tasks: list[UserTask] = relationship("UserTask", back_populates="resolved_by", cascade="delete")
 
     @staticmethod
     async def create(name: str, password: str | None = None, enabled: bool = True, admin: bool = False) -> User:
@@ -64,22 +63,22 @@ class User(Base):
             "enabled": self.enabled,
             "admin": self.admin,
             "tasks": len(self.tasks),
-            "resolved_tasks": len(self.resolved_tasks)
+            "resolved_tasks": len([task for task in self.tasks if task.resolved is True])
         }
 
     @staticmethod
     async def get_user_by_name(name: str) -> User | None:
-        return await db.get(User, (User.tasks, User.resolved_tasks), name=name)
+        return await db.get(User, (User.tasks), name=name)
 
     @staticmethod
     async def get_user_by_id(user_id: int) -> User | None:
-        return await db.get(User, (User.tasks, User.resolved_tasks), id=user_id)
+        return await db.get(User, (User.tasks), id=user_id)
 
     @staticmethod
     async def get_user_by_token(token: str) -> User | None:
         if not await redis.exists(f"access_token:{hash_token(token)}"):
             return None
-        return await db.get(User, (User.tasks, User.resolved_tasks), token=hash_token(token))
+        return await db.get(User, (User.tasks), token=hash_token(token))
 
     async def create_session(self, token: str | None = None):
         if token:

@@ -39,3 +39,10 @@ class NameDuplicated(APIException):
     detail = "Name is already in use"
     description = "This name is already taken by another user."
 
+
+class InvalidTask(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Task not found"
+    description = "This task does not exist."
+
+
