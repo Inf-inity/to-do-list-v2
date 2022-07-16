@@ -132,9 +132,5 @@ dmypy.json
 /data/
 ./data/
 
-# svelte
-node_modules
-.*
-
 # docker-compose.yml
 docker-compose.yml
