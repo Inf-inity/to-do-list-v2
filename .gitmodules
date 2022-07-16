@@ -1,6 +1,8 @@
 [submodule "to-do-list-v2-frontend"]
 	path = to-do-list-v2-frontend
 	url = ../../Inf-inity/to-do-list-v2-frontend.git
+	branch = master
 [submodule "to-do-list-v2-backend"]
 	path = to-do-list-v2-backend
 	url = ../../Inf-inity/to-do-list-v2-backend.git
+	branch = master
