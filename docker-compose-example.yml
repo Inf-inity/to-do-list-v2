@@ -10,6 +10,7 @@ services:
       - ./to-do-list-v2-backend:/to-do-list-v2-backend:Z
     networks:
       - to-do-list-v2
+    env_file: .env
     depends_on:
       - db
       - redis
